@@ -11,7 +11,7 @@ aioc-hospital-base:
   service:
     type: ClusterIP
     port: 8002
-  # Create Secret "scheduling-service-secrets" with keys DATABASE_URL, SECRET_KEY (see argocd/SECRETS.md)
+  # Secrets: scheduling-service-secrets (DATABASE_URL) + aioc-hospital-jwt-secret (SECRET_KEY, shared). See argocd/SECRETS.md
   env:
     - name: DATABASE_URL
       valueFrom:
@@ -21,7 +21,7 @@ aioc-hospital-base:
     - name: SECRET_KEY
       valueFrom:
         secretKeyRef:
-          name: scheduling-service-secrets
+          name: aioc-hospital-jwt-secret
           key: SECRET_KEY
     - name: ALGORITHM
       value: "HS256"
