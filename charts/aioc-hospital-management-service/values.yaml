@@ -42,6 +42,10 @@ aioc-hospital-base:
         namespace: kube-system
         kind: Gateway
         sectionName: http
+      - name: main-gateway
+        namespace: kube-system
+        kind: Gateway
+        sectionName: https
     hostnames:
       - management.aioc-services.com
     rules:
