@@ -7,7 +7,7 @@ aioc-hospital-base:
   image:
     repository: ghcr.io/siesta94/frontend
     pullPolicy: IfNotPresent
-    tag: "32a0c2f"
+    tag: "8d75d30"
   service:
     type: ClusterIP
     port: 3000

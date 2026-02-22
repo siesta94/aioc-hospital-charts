@@ -7,7 +7,7 @@ aioc-hospital-base:
   image:
     repository: ghcr.io/siesta94/scheduling-service
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "8d75d30"
   service:
     type: ClusterIP
     port: 8002

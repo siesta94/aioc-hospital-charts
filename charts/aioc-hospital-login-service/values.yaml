@@ -8,7 +8,7 @@ aioc-hospital-base:
   image:
     repository: ghcr.io/siesta94/login-service
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: "8d75d30"
   service:
     type: ClusterIP
     port: 8000
