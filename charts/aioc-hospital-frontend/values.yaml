@@ -11,6 +11,32 @@ aioc-hospital-base:
   service:
     type: ClusterIP
     port: 3000
+  # Backend API URLs (browser calls these; adjust env var names to match your frontend app)
+  env:
+    - name: VITE_API_URL
+      value: "https://login.aioc-services.com"
+    - name: REACT_APP_API_URL
+      value: "https://login.aioc-services.com"
+    - name: VITE_LOGIN_API_URL
+      value: "https://login.aioc-services.com"
+    - name: REACT_APP_LOGIN_API_URL
+      value: "https://login.aioc-services.com"
+    - name: VITE_MANAGEMENT_API_URL
+      value: "https://management.aioc-services.com"
+    - name: REACT_APP_MANAGEMENT_API_URL
+      value: "https://management.aioc-services.com"
+    - name: VITE_REPORTS_API_URL
+      value: "https://reports.aioc-services.com"
+    - name: REACT_APP_REPORTS_API_URL
+      value: "https://reports.aioc-services.com"
+    - name: VITE_SCHEDULING_API_URL
+      value: "https://scheduling.aioc-services.com"
+    - name: REACT_APP_SCHEDULING_API_URL
+      value: "https://scheduling.aioc-services.com"
+    - name: VITE_PDF_API_URL
+      value: "https://pdf.aioc-services.com"
+    - name: REACT_APP_PDF_API_URL
+      value: "https://pdf.aioc-services.com"
   livenessProbe:
     httpGet:
       path: /
