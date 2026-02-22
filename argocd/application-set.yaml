@@ -1,0 +1,59 @@
+# ApplicationSet: one Application per (service × environment).
+# Generates e.g. aioc-hospital-frontend-dev, aioc-hospital-frontend-staging, ...
+# Deploy to namespaces: aioc-hospital-dev, aioc-hospital-staging, aioc-hospital-prod
+#
+# Use this for multi-env. For single-env, use the individual *.yaml apps instead.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: aioc-hospital-apps
+  namespace: argocd
+spec:
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - app: frontend
+                  path: charts/aioc-hospital-frontend
+                  release: frontend
+                - app: login-service
+                  path: charts/aioc-hospital-login-service
+                  release: login-service
+                - app: management-service
+                  path: charts/aioc-hospital-management-service
+                  release: management-service
+                - app: pdf-service
+                  path: charts/aioc-hospital-pdf-service
+                  release: pdf-service
+                - app: reports-service
+                  path: charts/aioc-hospital-reports-service
+                  release: reports-service
+                - app: scheduling-service
+                  path: charts/aioc-hospital-scheduling-service
+                  release: scheduling-service
+          - list:
+              elements:
+                - env: dev
+                - env: staging
+                - env: prod
+  template:
+    metadata:
+      name: 'aioc-hospital-{{app}}-{{env}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/siesta94/aioc-hospital-charts.git
+        targetRevision: HEAD
+        path: '{{path}}'
+        helm:
+          releaseName: '{{release}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'aioc-hospital-{{env}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

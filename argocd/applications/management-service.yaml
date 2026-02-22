@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aioc-hospital-management-service
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/siesta94/aioc-hospital-charts.git
+    targetRevision: HEAD
+    path: charts/aioc-hospital-management-service
+    helm:
+      releaseName: management-service
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: aioc-hospital
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
