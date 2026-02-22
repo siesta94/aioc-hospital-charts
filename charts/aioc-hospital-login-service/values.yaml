@@ -12,11 +12,18 @@ aioc-hospital-base:
   service:
     type: ClusterIP
     port: 8000
+  # Create Secret "login-service-secrets" with keys DATABASE_URL, SECRET_KEY (see argocd/SECRETS.md)
   env:
     - name: DATABASE_URL
-      value: "postgresql://postgres:postgres@postgres:5432/aioc_hospital_login_service"
+      valueFrom:
+        secretKeyRef:
+          name: login-service-secrets
+          key: DATABASE_URL
     - name: SECRET_KEY
-      value: "change-this-secret-key-in-production"
+      valueFrom:
+        secretKeyRef:
+          name: login-service-secrets
+          key: SECRET_KEY
     - name: ALGORITHM
       value: "HS256"
     - name: ACCESS_TOKEN_EXPIRE_MINUTES

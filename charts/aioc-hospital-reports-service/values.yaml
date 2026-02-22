@@ -11,11 +11,18 @@ aioc-hospital-base:
   service:
     type: ClusterIP
     port: 8003
+  # Create Secret "reports-service-secrets" with keys DATABASE_URL, SECRET_KEY (see argocd/SECRETS.md)
   env:
     - name: DATABASE_URL
-      value: "postgresql://postgres:postgres@postgres:5432/aioc_hospital_reports_service"
+      valueFrom:
+        secretKeyRef:
+          name: reports-service-secrets
+          key: DATABASE_URL
     - name: SECRET_KEY
-      value: "change-this-secret-key-in-production"
+      valueFrom:
+        secretKeyRef:
+          name: reports-service-secrets
+          key: SECRET_KEY
     - name: ALGORITHM
       value: "HS256"
     - name: ALLOWED_ORIGINS
