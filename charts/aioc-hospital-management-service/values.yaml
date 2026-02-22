@@ -1,0 +1,44 @@
+aioc-hospital-base:
+  nameOverride: management-service
+  fullnameOverride: management-service
+  replicaCount: 1
+  imagePullSecrets:
+    - name: ghcr-pull-secret
+  image:
+    repository: ghcr.io/siesta94/management-service
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 8001
+  env:
+    - name: DATABASE_URL
+      value: "postgresql://postgres:postgres@postgres:5432/aioc_hospital_management_service"
+    - name: SECRET_KEY
+      value: "change-this-secret-key-in-production"
+    - name: ALGORITHM
+      value: "HS256"
+    - name: ALLOWED_ORIGINS
+      value: "https://my-hospital.aioc-services.com,http://my-hospital.aioc-services.com,http://localhost:3000,http://127.0.0.1:3000"
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+  httpRoute:
+    enabled: true
+    parentRefs:
+      - name: main-gateway
+        namespace: kube-system
+        kind: Gateway
+        sectionName: http
+    hostnames:
+      - management.aioc-services.com
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /

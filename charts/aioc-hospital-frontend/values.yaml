@@ -1,0 +1,35 @@
+aioc-hospital-base:
+  nameOverride: frontend
+  fullnameOverride: frontend
+  replicaCount: 1
+  imagePullSecrets:
+    - name: ghcr-pull-secret
+  image:
+    repository: ghcr.io/siesta94/frontend
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 3000
+  livenessProbe:
+    httpGet:
+      path: /
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /
+      port: http
+  httpRoute:
+    enabled: true
+    parentRefs:
+      - name: main-gateway
+        namespace: kube-system
+        kind: Gateway
+        sectionName: http
+    hostnames:
+      - my-hospital.aioc-services.com
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /

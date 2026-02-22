@@ -1,0 +1,48 @@
+aioc-hospital-base:
+  nameOverride: reports-service
+  fullnameOverride: reports-service
+  replicaCount: 1
+  imagePullSecrets:
+    - name: ghcr-pull-secret
+  image:
+    repository: ghcr.io/siesta94/reports-service
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 8003
+  env:
+    - name: DATABASE_URL
+      value: "postgresql://postgres:postgres@postgres:5432/aioc_hospital_reports_service"
+    - name: SECRET_KEY
+      value: "change-this-secret-key-in-production"
+    - name: ALGORITHM
+      value: "HS256"
+    - name: ALLOWED_ORIGINS
+      value: "https://my-hospital.aioc-services.com,http://my-hospital.aioc-services.com,http://localhost:3000,http://127.0.0.1:3000"
+    - name: PDF_SERVICE_URL
+      value: "http://pdf-service:8004"
+    - name: MANAGEMENT_SERVICE_URL
+      value: "http://management-service:8001"
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+  httpRoute:
+    enabled: true
+    parentRefs:
+      - name: main-gateway
+        namespace: kube-system
+        kind: Gateway
+        sectionName: http
+    hostnames:
+      - reports.aioc-services.com
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /

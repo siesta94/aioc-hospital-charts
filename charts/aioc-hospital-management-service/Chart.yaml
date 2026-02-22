@@ -1,0 +1,10 @@
+apiVersion: v2
+name: aioc-hospital-management-service
+description: AIOC Hospital Management Service (patients)
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+dependencies:
+  - name: aioc-hospital-base
+    version: "0.1.0"
+    repository: "file://../../aioc-hospital-base"

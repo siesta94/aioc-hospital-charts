@@ -1,0 +1,43 @@
+# PDF service is typically only called by reports-service; HTTPRoute optional for internal-only.
+aioc-hospital-base:
+  nameOverride: pdf-service
+  fullnameOverride: pdf-service
+  replicaCount: 1
+  imagePullSecrets:
+    - name: ghcr-pull-secret
+  image:
+    repository: ghcr.io/siesta94/pdf-service
+    pullPolicy: IfNotPresent
+    tag: "latest"
+  service:
+    type: ClusterIP
+    port: 8004
+  env:
+    - name: HOSPITAL_NAME
+      value: "AIOC Hospital"
+    - name: HOSPITAL_ADDRESS
+      value: "Matije Gupca 12, 11000 Beograd, Serbia"
+    - name: HOSPITAL_PHONE
+      value: "+381 11 2345-678"
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: http
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: http
+  httpRoute:
+    enabled: true
+    parentRefs:
+      - name: main-gateway
+        namespace: kube-system
+        kind: Gateway
+        sectionName: http
+    hostnames:
+      - pdf.aioc-services.com
+    rules:
+      - matches:
+          - path:
+              type: PathPrefix
+              value: /
