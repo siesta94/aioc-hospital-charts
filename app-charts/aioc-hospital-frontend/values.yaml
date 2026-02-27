@@ -37,14 +37,7 @@ aioc-hospital-base:
       value: "https://pdf.aioc-services.com"
     - name: REACT_APP_PDF_API_URL
       value: "https://pdf.aioc-services.com"
-  livenessProbe:
-    httpGet:
-      path: /
-      port: http
-  readinessProbe:
-    httpGet:
-      path: /
-      port: http
+  # probePath defaults to / in base; timing (initialDelaySeconds etc.) is in base
   httpRoute:
     enabled: true
     parentRefs:

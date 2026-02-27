@@ -29,14 +29,7 @@ aioc-hospital-base:
       value: "https://my-hospital.aioc-services.com,http://my-hospital.aioc-services.com,http://localhost:3000,http://127.0.0.1:3000"
     - name: MANAGEMENT_SERVICE_URL
       value: "http://management-service:8001"
-  livenessProbe:
-    httpGet:
-      path: /health
-      port: http
-  readinessProbe:
-    httpGet:
-      path: /health
-      port: http
+  probePath: /health
   httpRoute:
     enabled: true
     parentRefs:

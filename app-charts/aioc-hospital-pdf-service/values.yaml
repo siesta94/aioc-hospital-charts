@@ -19,14 +19,7 @@ aioc-hospital-base:
       value: "Matije Gupca 12, 11000 Beograd, Serbia"
     - name: HOSPITAL_PHONE
       value: "+381 11 2345-678"
-  livenessProbe:
-    httpGet:
-      path: /health
-      port: http
-  readinessProbe:
-    httpGet:
-      path: /health
-      port: http
+  probePath: /health
   httpRoute:
     enabled: true
     parentRefs:
