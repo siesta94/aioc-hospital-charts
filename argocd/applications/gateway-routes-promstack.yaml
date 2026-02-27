@@ -1,0 +1,21 @@
+# HTTPRoutes for Grafana, Prometheus, Alertmanager on main-gateway (same TLS as app).
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aioc-hospital-gateway-routes-promstack
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/siesta94/aioc-hospital-charts.git
+    targetRevision: HEAD
+    path: argocd/gateway-routes
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -2,8 +2,10 @@
 # Resource limits tuned for a 2GB node so Promstack does not use all memory.
 #
 kube-prometheus-stack:
-  # Prometheus: cap memory so node has room for apps + system
+  # Prometheus: exposed via HTTPRoute on main-gateway (kube-system), not Ingress
   prometheus:
+    ingress:
+      enabled: false
     prometheusSpec:
       retention: 15d
       retentionSize: 5GB
@@ -22,8 +24,10 @@ kube-prometheus-stack:
               requests:
                 storage: 5Gi
 
-  # Grafana: admin from Secret; limit memory for small nodes
+  # Grafana: exposed via HTTPRoute on main-gateway (kube-system), not Ingress
   grafana:
+    ingress:
+      enabled: false
     persistence:
       enabled: true
       size: 5Gi
@@ -39,8 +43,10 @@ kube-prometheus-stack:
       userKey: admin-user
       passwordKey: admin-password
 
-  # Alertmanager: small footprint
+  # Alertmanager: exposed via HTTPRoute on main-gateway (kube-system), not Ingress
   alertmanager:
+    ingress:
+      enabled: false
     alertmanagerSpec:
       resources:
         requests:
