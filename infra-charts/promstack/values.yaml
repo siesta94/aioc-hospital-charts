@@ -1,0 +1,37 @@
+# Values for kube-prometheus-stack (nested under dependency name).
+# Override only what you need; see upstream defaults:
+# https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/values.yaml
+#
+kube-prometheus-stack:
+  # Prometheus retention and storage
+  prometheus:
+    prometheusSpec:
+      retention: 15d
+      retentionSize: 5GB
+      storageSpec:
+        volumeClaimTemplate:
+          spec:
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 5Gi
+
+  # Grafana: admin password from a Secret (nothing stored in repo).
+  # Create the Secret in the monitoring namespace, e.g.:
+  #   kubectl create secret generic grafana-admin -n monitoring \
+  #     --from-literal=admin-user=admin \
+  #     --from-literal=admin-password='YOUR_PASSWORD'
+  grafana:
+    persistence:
+      enabled: true
+      size: 5Gi
+    admin:
+      existingSecret: "grafana-admin"
+      userKey: admin-user
+      passwordKey: admin-password
+
+  # Optional: allow Prometheus to discover ServiceMonitors in all namespaces
+  # prometheus:
+  #   prometheusSpec:
+  #     serviceMonitorSelectorNilUsesHelmValues: false
+  #     podMonitorSelectorNilUsesHelmValues: false
