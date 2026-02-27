@@ -1,6 +1,6 @@
 # Argo CD Applications
 
-Applications for the AIOC Hospital services. Charts live in this repo; choose one of two ways to deploy.
+Applications for the AIOC Hospital services. Charts live in this repo: **app-charts/** (application services + base) and **infra-charts/** (cluster infra, e.g. monitoring). Choose one of two ways to deploy apps.
 
 ## Two ways to deploy
 

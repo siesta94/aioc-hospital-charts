@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/siesta94/aioc-hospital-charts.git
     targetRevision: HEAD
-    path: charts/aioc-hospital-reports-service
+    path: app-charts/aioc-hospital-reports-service
     helm:
       releaseName: reports-service
   destination:

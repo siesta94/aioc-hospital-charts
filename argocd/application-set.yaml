@@ -15,22 +15,22 @@ spec:
           - list:
               elements:
                 - app: frontend
-                  path: charts/aioc-hospital-frontend
+                  path: app-charts/aioc-hospital-frontend
                   release: frontend
                 - app: login-service
-                  path: charts/aioc-hospital-login-service
+                  path: app-charts/aioc-hospital-login-service
                   release: login-service
                 - app: management-service
-                  path: charts/aioc-hospital-management-service
+                  path: app-charts/aioc-hospital-management-service
                   release: management-service
                 - app: pdf-service
-                  path: charts/aioc-hospital-pdf-service
+                  path: app-charts/aioc-hospital-pdf-service
                   release: pdf-service
                 - app: reports-service
-                  path: charts/aioc-hospital-reports-service
+                  path: app-charts/aioc-hospital-reports-service
                   release: reports-service
                 - app: scheduling-service
-                  path: charts/aioc-hospital-scheduling-service
+                  path: app-charts/aioc-hospital-scheduling-service
                   release: scheduling-service
           - list:
               elements:

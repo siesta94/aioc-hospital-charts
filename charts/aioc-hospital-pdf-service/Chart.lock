@@ -1,6 +1,0 @@
-dependencies:
-- name: aioc-hospital-base
-  repository: file://../../aioc-hospital-base
-  version: 0.1.0
-digest: sha256:9d3ca4291dd3219f2632fd8260be36dfd0ec30d83261ebfb83653ad89e7e27f3
-generated: "2026-02-21T20:41:32.527972+01:00"
