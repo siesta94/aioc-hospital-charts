@@ -8,6 +8,13 @@ spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   selector:
     matchLabels:
       {{- include "aioc-hospital-base.selectorLabels" . | nindent 6 }}
@@ -23,6 +30,10 @@ spec:
         {{- toYaml . | nindent 8 }}
         {{- end }}
     spec:
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -31,6 +42,8 @@ spec:
       {{- with .Values.podSecurityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
+      {{- else }}
+      securityContext: {}
       {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -56,22 +69,30 @@ spec:
             httpGet:
               path: {{ .Values.probePath | default "/" }}
               port: {{ .Values.probePort | default "http" }}
+              scheme: HTTP
             initialDelaySeconds: 25
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
+            successThreshold: 1
           readinessProbe:
             httpGet:
               path: {{ .Values.probePath | default "/" }}
               port: {{ .Values.probePort | default "http" }}
+              scheme: HTTP
             initialDelaySeconds: 15
             periodSeconds: 10
             timeoutSeconds: 5
             failureThreshold: 3
+            successThreshold: 1
           {{- with .Values.resources }}
           resources:
             {{- toYaml . | nindent 12 }}
+          {{- else }}
+          resources: {}
           {{- end }}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
