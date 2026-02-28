@@ -16,7 +16,6 @@ spec:
     namespace: aioc-hospital
   syncPolicy:
     automated:
-      prune: true
       selfHeal: true
     syncOptions:
       - CreateNamespace=true

@@ -12,7 +12,6 @@ aioc-hospital-base:
   service:
     type: ClusterIP
     port: 8000
-  # Secrets: login-service-secrets (DATABASE_URL) + aioc-hospital-jwt-secret (SECRET_KEY, shared). See argocd/SECRETS.md
   env:
     - name: DATABASE_URL
       valueFrom:

@@ -6,7 +6,7 @@ Application Helm charts live here. Each service chart uses **aioc-hospital-base*
 
 - **app-charts/aioc-hospital-base/** – base chart with shared templates
 - **app-charts/aioc-hospital-{service}/** – one chart per service; each depends on the base
-- **infra-charts/** (at repo root) – cluster infra (e.g. Promstack); see repo root for layout
+- **infra-charts/** (at repo root) – cluster infra; see repo root for layout
 
 ## Install
 
@@ -56,7 +56,7 @@ httpRoute:
     - my-hospital.mycompany.com   # one hostname per service, or a list if you need several
 ```
 
-Commit and push; Argo CD will sync and update the HTTPRoutes. No need to touch the base chart unless you want to change the Gateway (`parentRefs`).
+Re-run `helm upgrade` (or your deploy process) to apply HTTPRoute changes. No need to touch the base chart unless you want to change the Gateway (`parentRefs`).
 
 ### 2. Point DNS at the Gateway
 
@@ -81,7 +81,7 @@ Do this for every hostname you set in step 1 (e.g. `my-hospital.mycompany.com`, 
 You already have cert-manager and a ClusterIssuer (`letsencrypt-prod-dns`). To serve HTTPS:
 
 - Configure the **Gateway** (or the Gateway’s listener) to use TLS and reference a **Certificate** in the same namespace as the Gateway (e.g. `kube-system`). The Certificate should use the same hostnames as your HTTPRoutes and the `letsencrypt-prod-dns` ClusterIssuer (DNS-01 is typical for wildcards).
-- Ensure the DNS-01 secret (e.g. Cloudflare API token) exists as in `argocd/cert-manager/cluster-issuer.yaml`.
+- Ensure the DNS-01 secret (e.g. Cloudflare API token) exists for your cert-manager ClusterIssuer if you use TLS.
 
 Once the Certificate is issued, the Gateway will serve TLS for those hostnames.
 
