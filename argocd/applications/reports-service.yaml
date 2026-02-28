@@ -1,16 +1,16 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: aioc-hospital-pdf-service
+  name: aioc-hospital-reports-service
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/siesta94/aioc-hospital-charts.git
     targetRevision: HEAD
-    path: app-charts/aioc-hospital-pdf-service
+    path: app-charts/aioc-hospital-reports-service
     helm:
-      releaseName: pdf-service
+      releaseName: reports-service
   destination:
     server: https://kubernetes.default.svc
     namespace: aioc-hospital
