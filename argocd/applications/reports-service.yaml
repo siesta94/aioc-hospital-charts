@@ -4,7 +4,7 @@ metadata:
   name: aioc-hospital-reports-service
   namespace: argocd
 spec:
-  project: default
+  project: aioc-hospital
   source:
     repoURL: https://github.com/siesta94/aioc-hospital-charts.git
     targetRevision: HEAD
