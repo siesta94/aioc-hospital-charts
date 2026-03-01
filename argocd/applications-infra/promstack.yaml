@@ -27,4 +27,5 @@ spec:
     namespace: prometheus
   syncPolicy:
     syncOptions:
+      - CreateNamespace=true
       - ServerSideApply=true
